@@ -9,9 +9,19 @@ $('#result-div').click(handleResultClick);
 
 function handleResultClick(e) {
     var trackId = e.target.closest('.result-card').id;
+    console.log(trackId);
     if (e.target.closest('.genius-color')) {
         //display lyrics dropdown
 
+        console.log(QS('#lyric' + trackId));
+        if (!QS('#lyric' + trackId)) {
+
+            displayLyricDropdown(trackId);
+            return;
+        }
+
+        $('#lyric' + trackId).addClass('scale-out-ver-top');
+        setTimeout(() => $('#lyric' + trackId).remove(), 500);
     }
     if (e.target.closest('.remove-result')) {
         //remove from result result-card
@@ -53,6 +63,7 @@ function handleSuggestionClick(e) {
 
                 createResultCard(completeTrackInfo);
 
+                $('#after-lyric-tracking').attr('src', completeTrackInfo.musix.script_tracking_url);
                 $('#suggestion-container').empty();
                 $('#suggestion-container').hide();
             });
@@ -63,16 +74,16 @@ function handleSuggestionClick(e) {
 }
 
 function handleFinnishType(e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
 
     find_by_lyric($("#Search").val()).then(res => {
-        var songsJson = JSON.parse(res);
-        console.log(songsJson);
+        console.log(res);
+        var trackList = JSON.parse(res);
 
-        if (songsJson.message.body.track_list.length > 0) {
+        if (trackList.length > 0) {
             $('#suggestion-container').empty();
 
-            songsJson.message.body.track_list.forEach(song => {
+            trackList.forEach(song => {
                 createSearchSuggestionDiv(song.track);
             });
 

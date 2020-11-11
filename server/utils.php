@@ -18,6 +18,29 @@ function getSpotifyToken(){
     // Send the user along and fetch some data!
 }
 
+function curl_musix($URI, $filter_response){
+    $BASE_URL = "http://api.musixmatch.com/ws/1.1/";
+    $headers = array(
+        'Accept: application/json',
+        'Content-Type: application/json',
+        );
+    $ch = curl_init();
+    // set url
+    curl_setopt($ch, CURLOPT_URL, $BASE_URL.$URI);
+    //return the transfer as a string
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    
+    // $output contains the output json
+    $output = curl_exec($ch);
+
+    // close curl resource to free up system resources
+    curl_close($ch);
+
+    // create curl resource
+    return json_decode($output, true)['message']['body'][$filter_response];
+}
+
 function redirect($url)
 {
     ob_start();

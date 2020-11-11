@@ -11,7 +11,7 @@ function createSearchSuggestionDiv(song) {
 
 function createResultCard(track) {
     var resultCard = `
-    <div id="${track.musix.track_id}" class="result-card w-100 p-1 shadow-sm" data-lyric="${track.musix.lyrics_body}" data-spotify="${track.spotify.external_urls.spotify}">
+    <div id="musix-${track.musix.track_id}" class="result-card w-100 p-1 shadow-sm" data-lyric="${track.musix.lyrics_body}" data-spotify="${track.spotify.external_urls.spotify}">
         <img src="${track.spotify.album.images[1].url}" alt="album-image" class="p-0 h-100">
         <div class="d-flex flex-column mr-2 h-100 w-100 ">
             <div class="d-flex flex-column ml-2">
@@ -46,4 +46,20 @@ function createResultCard(track) {
     `
 
     $('#result-div').append(resultCard);
+}
+
+function displayLyricDropdown(trackId) {
+    var dropdown =
+        `<div id="lyric${trackId}" class="lyric-dropdown shadow-sm scale-in-ver-top">
+        <p>
+            ${$('#' + trackId).data('lyric')}
+        </p>
+    </div>`;
+
+    $('#' + trackId).after(dropdown);
+
+}
+
+function QS(selector) {
+    return document.querySelector(selector);
 }
