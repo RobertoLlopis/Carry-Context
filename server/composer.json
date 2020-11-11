@@ -1,0 +1,9 @@
+{
+    "require": {
+        "socialconnect/auth": "^3.2",
+        "simivar/genius-php": "^2.0",
+        "php-http/message": "^1.9",
+        "php-http/guzzle6-adapter": "^2.0",
+        "jwilsson/spotify-web-api-php": "^3.6"
+    }
+}
