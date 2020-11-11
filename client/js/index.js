@@ -2,33 +2,12 @@
 ============ Listeners 
 =================================*/
 
+$('body').click(handleCloseElements);
 $("#Search").on('keyup', handleKeyUp);
 $('#Search').submit(handleFinnishType);
 $('#suggestion-container').click(handleSuggestionClick);
 $('#result-div').click(handleResultClick);
 
-function handleResultClick(e) {
-    var trackId = e.target.closest('.result-card').id;
-    console.log(trackId);
-    if (e.target.closest('.genius-color')) {
-        //display lyrics dropdown
-
-        console.log(QS('#lyric' + trackId));
-        if (!QS('#lyric' + trackId)) {
-
-            displayLyricDropdown(trackId);
-            return;
-        }
-
-        $('#lyric' + trackId).addClass('scale-out-ver-top');
-        setTimeout(() => $('#lyric' + trackId).remove(), 500);
-    }
-    if (e.target.closest('.remove-result')) {
-        //remove from result result-card
-        var cardToRemove = e.currentTarget.querySelector('#' + trackId);
-        cardToRemove.remove();
-    }
-}
 
 /*=================================
 ============ Handlers 
@@ -75,23 +54,20 @@ function handleSuggestionClick(e) {
 
 function handleFinnishType(e) {
     if (e) e.preventDefault();
+    if (QS('#lyric_search').checked) {
+        musix_find_by('lyrics', $("#Search").val()).then(res => {
 
-    find_by_lyric($("#Search").val()).then(res => {
-        console.log(res);
+            var trackList = JSON.parse(res);
+            showSuggestions(trackList);
+        });
+    }
+
+    musix_find_by('track_artist', $("#Search").val()).then(res => {
+
         var trackList = JSON.parse(res);
+        showSuggestions(trackList);
+    })
 
-        if (trackList.length > 0) {
-            $('#suggestion-container').empty();
-
-            trackList.forEach(song => {
-                createSearchSuggestionDiv(song.track);
-            });
-
-            $('#suggestion-container').fadeIn();
-            return;
-        }
-
-    });
 }
 
 var typingTimer; //timer identifier
@@ -103,4 +79,30 @@ function handleKeyUp(e) {
     if ($("#Search").val()) {
         typingTimer = setTimeout(handleFinnishType, doneTypingInterval);
     }
+}
+
+function handleResultClick(e) {
+
+    var trackId = e.target.closest('.result-card').id;
+    if (e.target.closest('.genius-color')) {
+        //display lyrics dropdown
+        if (!QS('#lyric' + trackId)) {
+
+            displayLyricDropdown(trackId);
+            return;
+        }
+
+        $('#lyric' + trackId).addClass('scale-out-ver-top');
+        setTimeout(() => $('#lyric' + trackId).remove(), 500);
+    }
+
+    if (e.target.closest('.remove-result')) {
+        //remove from result result-card
+        var cardToRemove = e.currentTarget.querySelector('#' + trackId);
+        cardToRemove.remove();
+    }
+}
+
+function handleCloseElements(e) {
+    if (!e.target.closest('#suggestion-container') && $('#suggestion-container').css('display') !== 'none') $('#suggestion-container').fadeOut();
 }

@@ -1,3 +1,16 @@
+function showSuggestions(trackList) {
+    if (trackList.length > 0) {
+        $('#suggestion-container').empty();
+
+        trackList.forEach(song => {
+            createSearchSuggestionDiv(song.track);
+        });
+
+        $('#suggestion-container').fadeIn();
+        return;
+    }
+    console.error('Any lyric matched');
+};
 
 function createSearchSuggestionDiv(song) {
     var div = `

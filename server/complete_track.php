@@ -14,19 +14,13 @@ if (isset($_POST['track_info'])){
 
     echo json_encode($complete_track);
 }
+
 function curl_spotify($track_info){
 
     $api = new SpotifyWebAPI\SpotifyWebAPI();
     $token_file = 'spotify_token.txt';
 
     //Check if token expired and if so create new one
-    /* echo time();
-    echo '<br/>';
-    echo filemtime($token_file);
-    echo '<br/>';
-    echo 55 * 60000;
-    echo '<br/>';
-    echo time() - filemtime($token_file) > 55 * 60000; */
     //if( time() - filemtime($token_file) > 55 * 60000 ){
     //    $api->setAccessToken(getSpotifyToken());
     //} else {
@@ -39,7 +33,6 @@ function curl_spotify($track_info){
         :  $track_info['track_name'];
 
     $spotify_results = $api->search($formatted_track_name, 'track', ['limit'=> '6']);
-    //var_dump($spotify_results);
     $spotify_results_array = json_decode(json_encode($spotify_results), TRUE);
 
     foreach($spotify_results_array['tracks']['items'] as $track){
@@ -52,8 +45,6 @@ function curl_spotify($track_info){
     }
 
     return false;
-    //var_dump($spotify_results);
-    //echo json_encode($track_info);
 }
 function get_musix_track($track_info){
     $musix_track = [];

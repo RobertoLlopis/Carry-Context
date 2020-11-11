@@ -2,9 +2,10 @@
 //fetch('server/utils.php').then(res => res.text()).then(text => console.log(text));
 
 
-function find_by_lyric(search_value) {
+function musix_find_by(kind, search_value) {
     var formData = new FormData();
     formData.append('search_value', search_value);
+    formData.append('search_kind', kind);
     return fetch('server/musixmatch.php', { method: 'POST', body: formData }).then(res => res.text());
 }
 
