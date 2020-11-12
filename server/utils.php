@@ -51,3 +51,7 @@ function redirect($url)
 function convertObjToArray($class){
     return json_decode(json_encode($class));
 }
+
+function getUsersArr(){
+    return json_decode(file_get_contents('JSON/users.json'), true);
+}

@@ -8,6 +8,7 @@ $('#playlist-info').hide();
 ========= Results songs  
 =================================*/
 var currentResults = {};
+var currentPlaylist = {};
 
 /*=================================
 ============ Listeners 
@@ -18,26 +19,30 @@ $("#Search").on('keyup', handleKeyUp);
 $('#Search').submit(handleFinnishType);
 $('#suggestion-container').click(handleSuggestionClick);
 $('#result-div').click(handleResultClick);
-$('.playlist-from-results').click(handleCreatePlaylistFromResults);
 $('.playlists-list').click(handleplaylistClick);
+$('#main-header').click(handleMainHeaderClick);
 
-function handleplaylistClick(e) {
-    if (e.target.closest('li')) {
-        playlistId = e.target.closest('li').id.slice(1);
-        console.log(playlistId);
-        getOnePlaylist(playlistId)
-            .then(text => {
-                var playlist = JSON.parse(text);
-                $('#result-div').empty();
-                toggleMainHeaderDisplay();
-                for (var track in playlist.track_list) {
-                    createResultCard(playlist.track_list[track]);
-                }
-            });
+function handleMainHeaderClick(e) {
+    if (e.target.closest('.playlist-from-results')) {
+        createPlaylistFromResults();
+        return;
+    }
+    if (e.target.closest('.far')) {
+        var playlistId = e.target.closest('#playlist-info').dataset.playlist_id;
+        if (e.target.closest('.fa-trash-alt')) {
+            deletePlaylist(playlistId);
+            return;
+        }
+        if (e.target.closest('.fa-save')) {
+            //Take current Result and currentPlaylist,
+            //merge them and update playlist
+            savePlaylist();
+            return;
+        }
 
     }
-}
 
+}
 
 /*=================================
 ============ Handlers 
@@ -115,7 +120,7 @@ function handleKeyUp(e) {
 
 function handleResultClick(e) {
     if (e.target.closest('.result-card')) {
-        var trackId = e.target.closest('.result-card').id;
+        var trackId = e.target.closest('.result-card').id; // ex: musix-38749827423
         if (e.target.closest('.genius-color')) {
             //display lyrics dropdown
             if (!QS('#lyric' + trackId)) {
@@ -130,8 +135,13 @@ function handleResultClick(e) {
         }
 
         if (e.target.closest('.remove-result')) {
-            //remove from result result-card
+            //remove from results result-card
             var cardToRemove = e.currentTarget.querySelector('#' + trackId);
+            var idJustNumber = trackId.split('-')[1];
+            console.log('Id to delete from currentPlaylist', idJustNumber);
+            if (currentPlaylist.track_list[idJustNumber]) {
+                deleteOneTrackInCurrentPlaylist(idJustNumber);
+            }
             cardToRemove.remove();
             delete currentResults.trackId;
         }
@@ -142,7 +152,7 @@ function handleCloseElements(e) {
     if (!e.target.closest('#suggestion-container') && $('#suggestion-container').css('display') !== 'none') $('#suggestion-container').fadeOut();
 }
 
-function handleCreatePlaylistFromResults(e) {
+function createPlaylistFromResults(e) {
     var playListName = window.prompt('How do you want to call it?', 'Created: ' + new Date().toLocaleDateString('es-ES') + ' - ' + new Date().toLocaleTimeString('es-ES'));
     var playlistContent = currentResults;
     createPlaylist(playListName, playlistContent).then(text => {
@@ -153,13 +163,34 @@ function handleCreatePlaylistFromResults(e) {
     });
 }
 
+function handleplaylistClick(e) {
+    if (e.target.closest('li')) {
+        playlistId = e.target.closest('li').id.slice(1);
+
+        getOnePlaylist(playlistId)
+            .then(text => {
+                var playlist = JSON.parse(text);
+
+                currentPlaylist = playlist;
+                currentResults = {};
+
+                updatePlaylistDisplayInfo(playlist.id, playlist.name);
+                toggleMainHeaderDisplay();
+
+                for (var track in playlist.track_list) {
+                    createResultCard(playlist.track_list[track]);
+                }
+            });
+
+    }
+}
+
 /*=================================
 ======== Manager functions
 =================================*/
 
 function showUserPlaylists() {
     getUserPlaylists().then(text => {
-        console.log(text);
         var playlists = JSON.parse(text);
         for (var playlist in playlists) {
             console.log(playlist);
@@ -168,4 +199,22 @@ function showUserPlaylists() {
             }
         };
     });
+}
+
+function savePlaylist() {
+    for (var track in currentResults) {
+        console.log(track);
+        currentPlaylist.track_list[track] = currentResults[track];
+    }
+    console.log(currentPlaylist.track_list);
+    createPlaylist(currentPlaylist.name, currentPlaylist.track_list, currentPlaylist.id);
+}
+
+function deleteOneTrackInCurrentPlaylist(id) {
+    for (var track in currentPlaylist.track_list) {
+        console.log(track);
+        if (id == track) {
+            delete currentPlaylist.track_list[id];
+        }
+    }
 }

@@ -86,6 +86,7 @@ function displayLyricDropdown(trackId) {
 }
 
 function toggleMainHeaderDisplay() {
+
     if ($('.playlist-from-results').css('display') === 'none') {
         $('.playlist-from-results').show();
         $('#playlist-info').hide();
@@ -93,6 +94,11 @@ function toggleMainHeaderDisplay() {
     }
     $('.playlist-from-results').hide();
     $('#playlist-info').show();
+}
+function updatePlaylistDisplayInfo(playlistId, playListName) {
+    $('#result-div').empty();
+    QS('#playlist-info').dataset.playlist_id = playlistId;
+    QS('#playlist-name').textContent = playListName;
 }
 
 function QS(selector) {

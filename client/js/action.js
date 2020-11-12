@@ -39,10 +39,19 @@ function getUserPlaylists() {
 function getOnePlaylist(id) {
     return fetch(`server/playlist.php?playlist_id=${id}`).then(res => res.text());
 }
-function createPlaylist(playListName, playlistContent) {
+function createPlaylist(playListName, playlistContent, update = false) {
     var formData = newFormData({
         'name': playListName,
-        'track_list': playlistContent
+        'track_list': playlistContent,
+        'update': update
+    });
+    return fetch('server/playlist.php', {
+        method: 'POST', body: formData
+    }).then(res => res.text());
+}
+function deletePlaylist(id) {
+    var formData = newFormData({
+        'delete_id': id
     });
     return fetch('server/playlist.php', {
         method: 'POST', body: formData
