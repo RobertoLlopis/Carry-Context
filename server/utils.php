@@ -47,3 +47,7 @@ function redirect($url)
     header('Location: ' . $url);
     ob_end_flush();
 }
+
+function convertObjToArray($class){
+    return json_decode(json_encode($class));
+}

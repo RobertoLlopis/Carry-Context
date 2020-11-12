@@ -56,8 +56,5 @@ function get_musix_track($track_info){
 
     return $musix_track;
 }
-function search_by_lyric_musix($track_info){
-    $URI_TO_SEARCH = "track.search?q_lyrics=". str_replace(" ", "%20", $_POST['search_value']) . "&apikey=428a08e0865ff96590f41fa6a7d0d3e8&page_size=6&page=1&s_track_rating=desc";
-    
-}
+
 

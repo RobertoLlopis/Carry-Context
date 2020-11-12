@@ -12,6 +12,18 @@ function showSuggestions(trackList) {
     console.error('Any lyric matched');
 };
 
+function createAsidePlaylist(playlist) {
+    var li =
+        `<li id="_${playlist.id}" class="scale-in-hor-left">
+        ${playlist.name}
+        <div>
+            <i class="far fa-eye"></i>&nbsp;&nbsp;
+            <i class="fab fa-spotify"><div class="tooltip">Create it on Spotify!</div></i>
+        </div>
+    </li>`;
+    $('.playlists-list').append(li);
+}
+
 function createSearchSuggestionDiv(song) {
     var div = `
     <div class="suggestion w-100" data-artistId="${song.artist_id}" data-trackId="${song.track_id}">
@@ -43,8 +55,8 @@ function createResultCard(track) {
                         <i class="fas fa-plus"></i>
                     </div>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown${track.musix.track_id}">
-                        <p>Add to:    
-                        <div class="dropdown-item">
+                        <p class="pl-2">Add to:</p>
+                        <div id"favourites" class="dropdown-item">
                             Favourites
                         </div>
                     </div>

@@ -1,6 +1,5 @@
 
 
-
 var form_data = new FormData();
 form_data.append('checkError', true);
 fetch('../../server/login-signup.php', { method: 'POST', body: form_data }).then(res => res.text()).then(text => {
@@ -26,7 +25,6 @@ function errorAnimation(msg, elemToPrepend) {
     </div>`;
     elemToPrepend.prepend(div);
     console.log(elemToPrepend.children()[0]);
-    elemToPrepend.children()[0].addClass('scale-in-ver-top');
-    //setTimeout(() => elemToPrepend.children('div').remove(), 500);
-    console.log(elemToPrepend);
+    elemToPrepend.children()[0].classList.add('scale-in-ver-top');
+    setTimeout(() => elemToPrepend.children('div')[0].remove(), 2000);
 }

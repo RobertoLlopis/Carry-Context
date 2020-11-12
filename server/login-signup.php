@@ -1,13 +1,15 @@
 <?php
+session_start();
 include 'utils.php';
-echo $_POST['checkError'];
-if (isset($_GET['checkError'])) {
+
+if (isset($_POST['checkError'])) {
     if (isset($_SESSION['log-error'])) {
         echo 'true';
         unset($_SESSION['log-error']);
     } else {
         echo 'false';
     }
+    exit;
 }
 if (isset($_POST['confirm'])) {
     //TODO:
@@ -15,15 +17,18 @@ if (isset($_POST['confirm'])) {
 }
 if (isset($_POST['username'])) {
     $users = file_get_contents('JSON/users.json');
-    $users_array = json_decode($users);
+    //var_dump($users);
+    //echo '<br/>';
+    $users_array = json_decode($users, true);
+    //var_dump($users_array); 
 
     foreach ($users_array as $user) {
-        if ($user->name === $_POST['username'] && $user->password == $_POST['password']) {
-            $userLogged = ['id' => array_search($user, $users_array),  'name' => $user->name, 'password' => $user->password];
+        if ($user['name'] == $_POST['username'] && $user['password'] == $_POST['password']) {
+            $userLogged = ['id' => array_search($user, $users_array),  'name' => $user['name'], 'password' => $user['password']];
             $_SESSION['logged'] = $userLogged;
+
             unset($_SESSION['log-error']);
-            redirect('./../index.html');
-            die();
+            redirect('../index.php');
         }
     }
 

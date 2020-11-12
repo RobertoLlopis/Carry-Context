@@ -1,3 +1,10 @@
+<?php
+session_start();
+ if(!isset($_SESSION['logged'])){
+  header('Location: client/html/login.html');
+} 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,17 +57,30 @@
   </nav>
   <!-- End Navbar -->
   <div class="row content-wrapper">
-    <aside class="aside col-4 p-0">
+    <aside class="aside col-3 p-0">
       <div class="aside-title">
         <h3>Playlists</h3>
+        <button id="add-playlist" class="btn rounded-circle">
+          <i class="fas fa-plus"></i>
+        </button>
       </div>
       <ul class="playlists-list">
-        <li><i class="fas fa-star" style="color: #ffd800"></i>&nbsp; Favourites</li>
-        <li>First mock-up list</li>
+        <li>
+          <div>
+            <i class="fas fa-star" style="color: #ffd800"></i>&nbsp; Favourites
+          </div> 
+          <div>
+            <i class="far fa-eye"></i>&nbsp;&nbsp;
+            <i class="fab fa-spotify"><div class="tooltip">Create it on Spotify!</div></i>
+          </div>
+        </li>
       </ul>
     </aside>
-      <main class="main col-8 p-0">
-        <div id="result-div" class="container" style="padding: 3rem; height: 100%;">
+      <main class="main col-9 p-0">
+        <div id="main-header" class="w-100 d-flex justify-content-center mt-2">
+          <button class="playlist-from-results btn">Create playlist from results</button>
+        </div>
+        <div id="result-div" class="container">
           <div id="_2045572" class="result-card w-100 p-1 shadow-sm" data-lyric="I've been cheated by you since I don't know when
           So I've made up my mind it must come to an end
           Look at me now, will I ever learn
