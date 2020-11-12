@@ -77,8 +77,16 @@ session_start();
       </ul>
     </aside>
       <main class="main col-9 p-0">
-        <div id="main-header" class="w-100 d-flex justify-content-center mt-2">
+        <div id="main-header" class="w-100 d-flex justify-content-center align-items-center mt-2">
           <button class="playlist-from-results btn">Create playlist from results</button>
+          <div id="playlist-info" class="hide w-100 justify-content-center px-5 py-3">
+            <h2 id="playlist-name" class="w-50">First playlists displayed </h2>
+            <div class="d-flex justify-content-around align-items-center w-25">
+              <i class="far fa-save"></i>
+              <i class="far fa-trash-alt"></i>
+              <i class="fab fa-spotify"><div class="tooltip">Create it on Spotify!</div></i>
+            </div>
+          </div>
         </div>
         <div id="result-div" class="container">
           <div id="_2045572" class="result-card w-100 p-1 shadow-sm" data-lyric="I've been cheated by you since I don't know when

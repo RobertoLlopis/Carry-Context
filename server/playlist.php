@@ -13,7 +13,11 @@ if(isset($_POST['name'])){
     echo json_encode($new_playlist);
     exit;
 }
-
+if(isset($_GET['playlist_id'])){
+    $users = json_decode(file_get_contents('JSON/users.json'), true);
+    echo json_encode($users[$_SESSION['logged']['id']]['playlists'][$_GET['playlist_id']]);
+    exit;
+}
 if(isset($_SESSION['logged'])){
     $users = json_decode(file_get_contents('JSON/users.json'), true);
     echo json_encode($users[$_SESSION['logged']['id']]['playlists']);

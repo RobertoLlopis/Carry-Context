@@ -85,6 +85,16 @@ function displayLyricDropdown(trackId) {
 
 }
 
+function toggleMainHeaderDisplay() {
+    if ($('.playlist-from-results').css('display') === 'none') {
+        $('.playlist-from-results').show();
+        $('#playlist-info').hide();
+        return;
+    }
+    $('.playlist-from-results').hide();
+    $('#playlist-info').show();
+}
+
 function QS(selector) {
     return document.querySelector(selector);
 }

@@ -309,6 +309,18 @@ input[type="submit"] {
 .playlist-from-results:hover {
   background-color: #004445;
 }
+#playlist-info {
+  display: flex;
+}
+#playlist-info i.far,
+#playlist-info i.fab {
+  font-size: 2rem;
+  cursor: pointer;
+}
+#playlist-name {
+  display: inline-block;
+  margin: 0;
+}
 .result-card {
   display: flex;
   border-radius: 4px;

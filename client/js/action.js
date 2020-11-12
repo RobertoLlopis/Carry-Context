@@ -1,5 +1,5 @@
-
 //fetch('server/utils.php').then(res => res.text()).then(text => console.log(text));
+
 function newFormData(objectToAppend) {
     var formData = new FormData();
     var keyValuePairs = Object.entries(objectToAppend);
@@ -36,7 +36,9 @@ function getUserPlaylists() {
     return fetch('server/playlist.php')
         .then(res => res.text())
 }
-
+function getOnePlaylist(id) {
+    return fetch(`server/playlist.php?playlist_id=${id}`).then(res => res.text());
+}
 function createPlaylist(playListName, playlistContent) {
     var formData = newFormData({
         'name': playListName,

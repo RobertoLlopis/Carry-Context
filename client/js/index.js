@@ -2,6 +2,7 @@
 =========== Init app
 =================================*/
 showUserPlaylists();
+$('#playlist-info').hide();
 
 /*=================================
 ========= Results songs  
@@ -18,6 +19,24 @@ $('#Search').submit(handleFinnishType);
 $('#suggestion-container').click(handleSuggestionClick);
 $('#result-div').click(handleResultClick);
 $('.playlist-from-results').click(handleCreatePlaylistFromResults);
+$('.playlists-list').click(handleplaylistClick);
+
+function handleplaylistClick(e) {
+    if (e.target.closest('li')) {
+        playlistId = e.target.closest('li').id.slice(1);
+        console.log(playlistId);
+        getOnePlaylist(playlistId)
+            .then(text => {
+                var playlist = JSON.parse(text);
+                $('#result-div').empty();
+                toggleMainHeaderDisplay();
+                for (var track in playlist.track_list) {
+                    createResultCard(playlist.track_list[track]);
+                }
+            });
+
+    }
+}
 
 
 /*=================================
@@ -133,7 +152,6 @@ function handleCreatePlaylistFromResults(e) {
         createAsidePlaylist(newPlaylist);
     });
 }
-
 
 /*=================================
 ======== Manager functions
